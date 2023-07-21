@@ -9,10 +9,6 @@ const minLengthRegExp = /.{8,}/;
 const emailValidator = require("email-validator");
 const {
   noUser,
-
-  samePassword,
-  updatedPass,
-  emailError,
   newPassError,
   confirmPassError,
   errorFunc,

@@ -15,7 +15,7 @@ let {
 
 const User = require("../model/User");
 const { mailSender } = require("../constraints/sendingMail");
-const { otpGeneration } = require("../constraints/otpGeneration");
+
 
 
 
