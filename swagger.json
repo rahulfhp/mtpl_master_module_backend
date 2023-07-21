@@ -1,214 +1,454 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "This is a simple example NodeJS API project to demonstrate Swagger Documentation",
-        "version": "1.0.0",
-        "title": "Tasks API",
-        "contact": {
-            "email": "abc@gmail.com"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mindefy MMT Backend",
+    "description": "Master module Template for backend",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Register user",
+        "description": "Register a new user",
+        "tags": ["User"],
+        "requestBody": {
+          "description": "User data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "integer"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "dob": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": ["fullName", "email", "password", "gender", "dob"]
+              }
+            }
+          }
         },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        "responses": {
+          "200": {
+            "description": "User registered successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
         }
+      }
     },
-    "schemes": ["http"],
-    "host": "localhost:3080",
-    "basePath": "/api",
-    "paths" : {
-        "/register" : {
-            "post" : {
-                "summary" : "Get all the tasks",
-                "description": "Get all the tasks",
-                "produces": ["application/json"],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/todosResponse"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value",
-                        "schema": {
-                            "$ref": "#/definitions/InvalidResponse"
-                        }
-                    }
-                }
+    "/login": {
+      "post": {
+        "summary": "Login user",
+        "description": "Authenticate user with email and password",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "User credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
             }
+          }
         },
-        "/todo" : {
-            "post" : {
-                "summary" : "Save the task",
-                "description": "Save the task",
-                "produces": ["application/json"],
-                "consumes": ["application/json"],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "task object",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "task" : {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Task"
-                                } 
-                            }
-                        }
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/todosResponse"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value",
-                        "schema": {
-                            "$ref": "#/definitions/InvalidResponse"
-                        }
-                    }
+                  }
                 }
+              }
             }
-        },
-        "/todos/{id}" : {
-            "put" : {
-                "summary" : "Update the tasks",
-                "description": "Update the tasks",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "task id that needs to be deleted",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "task object",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "task" : {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Task"
-                                } 
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/todosResponse"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value",
-                        "schema": {
-                            "$ref": "#/definitions/InvalidResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/todo/{id}" : {
-            "delete" : {
-                "summary" : "Delete the task",
-                "description": "Delete the task",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "task id that needs to be deleted",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/todosResponse"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value",
-                        "schema": {
-                            "$ref": "#/definitions/InvalidResponse"
-                        }
-                    }
-                }
-            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
         }
-    }, 
-    "definitions": {
-        "todosResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                     "type": "integer"
-                },
-                "task": {
+      }
+    },
+    "/resetpassword": {
+      "post": {
+        "summary": "Reset password",
+        "description": "Reset user's password",
+        "tags": ["User"],
+        "requestBody": {
+          "description": "Reset password data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
                     "type": "string"
-                },
-                "assignee": {
+                  },
+                  "newpassword": {
                     "type": "string"
-                },
-                "status": {
+                  },
+                  "confirmpassword": {
                     "type": "string"
-                }
+                  }
+                },
+                "required": ["email", "newpassword", "confirmpassword"]
+              }
             }
+          }
         },
-        "Task": {
-            "type": "object",
-            "properties": {
-                "task": {
-                    "type": "string"
-                },
-                "assignee": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                }
-            }
-        },
-        "InvalidResponse": {
-            "type": "object",
-            "properties": {
-                "statusCode": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-
+        "responses": {
+          "200": {
+            "description": "Password reset successful"
+          },
+          "400": {
+            "description": "Bad request"
+          }
         }
+      }
+    },
+    "/changepassword": {
+      "post": {
+        "summary": "Change password",
+        "description": "Change user's password",
+        "tags": ["User"],
+        "requestBody": {
+          "description": "Change password data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "oldpassword": {
+                    "type": "string"
+                  },
+                  "newpassword": {
+                    "type": "string"
+                  },
+                  "confirmpassword": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "oldpassword",
+                  "newpassword",
+                  "confirmpassword"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/updateprofile": {
+      "post": {
+        "summary": "Update profile",
+        "description": "Update user's profile information",
+        "tags": ["User"],
+        "requestBody": {
+          "description": "User profile data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "newEmail": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "fullName", "newEmail", "gender", "phone"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/setprofessionalinfo": {
+      "post": {
+        "summary": "Register for professional",
+        "description": "Endpoint to register professional information",
+        "tags": ["Professional"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": ["male", "female", "other"]
+                  },
+                  "occupation": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "professionType": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "fullName",
+                  "gender",
+                  "occupation",
+                  "email",
+                  "phone",
+                  "professionType"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Professional information successfully registered"
+          },
+          "400": {
+            "description": "Bad request. Invalid input."
+          }
+        }
+      }
+    },
+    "/getprofessionalinfo/{email}": {
+      "get": {
+        "summary": "Get Professional Info",
+        "description": "Endpoint to retrieve professional information by email",
+        "tags": ["Professional"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with professional information"
+          },
+          "404": {
+            "description": "Professional information not found"
+          }
+        }
+      }
+    },
+    "/getprofessionalinfo/all": {
+      "get": {
+        "summary": "Get All Professional Info",
+        "description": "Endpoint to retrieve all professional information",
+        "tags": ["Professional"],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with all professional information"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/otpverification/{email}/{type}": {
+      "post": {
+        "summary": "OTP Verification",
+        "description": "Verify OTP for email",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "OTP data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "otp": {
+                    "type": "string"
+                  }
+                },
+                "required": ["otp"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP verified successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/emailverification": {
+      "post": {
+        "summary": "Email verification",
+        "description": "Verify user's email with OTP",
+        "tags": ["User"],
+        "requestBody": {
+          "description": "Email data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP sent for email verification"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/deleteuser": {
+      "delete": {
+        "summary": "Delete user",
+        "description": "Delete a user by email",
+        "tags": ["User"],
+        "requestBody": {
+          "description": "Email data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully deleted"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
     }
+  }
 }
-
