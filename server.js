@@ -6,6 +6,8 @@ const userRegister = require("./routes/userRegisterRoute");
 const deleteUserRoute = require("./routes/userDeleteRoute");
 const professionalInfoRoute = require("./routes/professionalInfoRoute");
 const timeTableRoute = require("./routes/timeTableRoute");
+const contactUsRoute = require("./routes/contactUsRoute");
+
 
 const { connectToDb } = require("./model/index");
 
@@ -84,6 +86,7 @@ app.use("/", userRegister);
 app.use("/", deleteUserRoute);
 app.use("/", professionalInfoRoute);
 app.use("/", timeTableRoute);
+app.use("/", contactUsRoute);
 
 app.listen(PORT, async () => {
   console.log(`App listening on port ${PORT}`);
