@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const userRegister = require("./routes/userRegisterRoute");
 const deleteUserRoute = require("./routes/userDeleteRoute");
 const professionalInfoRoute = require("./routes/professionalInfoRoute");
+const timeTableRoute = require("./routes/timeTableRoute");
 
 const { connectToDb } = require("./model/index");
 
@@ -82,6 +83,7 @@ app.use("/", userRegister);
 // app.use('/',updateProfile)
 app.use("/", deleteUserRoute);
 app.use("/", professionalInfoRoute);
+app.use("/", timeTableRoute);
 
 app.listen(PORT, async () => {
   console.log(`App listening on port ${PORT}`);
