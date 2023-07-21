@@ -1,3 +1,11 @@
+
+const errorFunc = (res, status, message) => {
+  return res.status(status).json({
+    status,
+    message,
+  });
+};
+
 const emailError = "Email is invalid";
 const passwordError = "Please enter valid password";
 const nameError = "Please enter valid Name";
@@ -14,9 +22,16 @@ const updatedPass = "Password has been updated";
 const oldPassError = "Please Enter Old password";
 const newPassError = " Please Enter New password";
 const confirmPassError = " Please Enter confirm password";
-
+const minLengthError = "Password should  be of length 8";
+const uppercaseError = "There should be 1 uppercase letter";
+const lowercaseError = "There should be 1 lowercase letter";
+const digitsError = "There should be digits too";
+const specialCharError = "There should be 1 special character";
 
 module.exports = {
+  specialCharError,
+  digitsError,
+  lowercaseError,
   emailError,
   passwordError,
   nameError,
@@ -26,6 +41,7 @@ module.exports = {
   dobAgeError,
   phoneError,
   emailPasswordError,
+  uppercaseError,
   noUser,
   loggedIn,
   samePassword,
@@ -33,4 +49,6 @@ module.exports = {
   oldPassError,
   newPassError,
   confirmPassError,
+  errorFunc,
+  minLengthError,
 };
