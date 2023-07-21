@@ -12,7 +12,7 @@ const smsGeneration = async ( res,countryCode , number, otp) => {
       to: phoneNumber,
       from: "+12517148236",
     });
-    console.log(message);
+    // console.log(message);
     if (!message) {
       return errorFunc(res, 400, "Error in sending message");
     }

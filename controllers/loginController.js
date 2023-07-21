@@ -21,7 +21,7 @@ const login = async (req, res) => {
     }
 
     let isEmail = emailValidator.validate(loginId);
-    console.log('email--',isEmail);
+    // console.log('email--',isEmail);
     let user = null;
     if (isEmail) {
       user = await User.findOne({
@@ -50,7 +50,7 @@ const login = async (req, res) => {
     }
   }
     // console.log(user.dataValues.password);
-    console.log("user22----",user);
+    // console.log("user22----",user);
     if (!user) {
       return errorFunc(res, 400, noUser);
     } else {

@@ -7,7 +7,7 @@ const emailValidator = require("email-validator");
 const authVerification = async (req, res, next) => {
   try {
     token = req.cookies.jwt ;
-    console.log(token);
+    // console.log(token);
     const {userid} = req.params;
     if (!token) {
       return errorFunc(res, 400, "No token");
@@ -16,8 +16,8 @@ const authVerification = async (req, res, next) => {
       token,
       process.env.ACCESS_TOKEN_SECRET
     );
-    console.log("---Hellooo=-==", verified);
-    console.log("--loginId",userid);
+    // console.log("---Hellooo=-==", verified);
+    // console.log("--loginId",userid);
     if (verified !== userid) {
       return errorFunc(res, 400, "Sorry you are not verified");
     }
@@ -32,9 +32,9 @@ const authVerification = async (req, res, next) => {
     if (!user) {
       return errorFunc(res, 400, "Token is not assigned with this user Id");
     }
-    console.log("-----", user.dataValues.token);
-    console.log("-----", token);
-    console.log("email ----",user);
+    // console.log("-----", user.dataValues.token);
+    // console.log("-----", token);
+    // console.log("email ----",user);
     if (!user.dataValues.is_verified) {
       return errorFunc(res, 400, "Your id is not verified");
     }

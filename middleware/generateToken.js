@@ -11,7 +11,7 @@ const generateToken = async (req, res, loginId) => {
         res.cookie("jwt", token, {
           httpOnly: true,
         });
-        console.log(token);
+        // console.log(token);
         return token
     } catch (error) {
         return errorFunc(res, 400, error.message);

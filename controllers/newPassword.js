@@ -58,7 +58,7 @@ const newPassword = async (req, res) => {
     const otpSearch = await OtpVerification.findOne({
       where: { otp, user_id: loginId },
     });
-    console.log("-----", otpSearch);
+    // console.log("-----", otpSearch);
     if (!otpSearch) {
       return errorFunc(res, 400, noUser);
     }

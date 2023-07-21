@@ -27,7 +27,7 @@ const emailVerification = async (req, res, next) => {
     }
 
   let validEmail = emailValidator.validate(loginId)
-  console.log(loginId);
+  // console.log(loginId);
   if (!validEmail) {
     
     const user = await User.findOne({

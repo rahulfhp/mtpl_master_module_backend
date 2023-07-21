@@ -105,7 +105,7 @@ const updateProfile = async (req, res) => {
 
     const expiration_time = AddMinutesToDate(now, 3);
     if (newEmail && phone) {
-      console.log("newEmail-----",newEmail);
+      // console.log("newEmail-----",newEmail);
       const data = {
         user_id:newEmail,
         otp: otp,
@@ -122,7 +122,7 @@ const updateProfile = async (req, res) => {
      return res.location(`/otpverification/${newEmail}/newuser`);
       // User.create(newUser);
     } else if (newEmail || !phone) {
-      console.log("---email",newEmail);
+      // console.log("---email",newEmail);
       const data = {
         user_id:newEmail,
         otp: otp,

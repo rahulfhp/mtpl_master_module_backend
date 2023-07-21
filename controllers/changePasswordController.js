@@ -69,12 +69,12 @@ const changePassword = async (req, res) => {
         user_id: userid,
       },
     });
-    console.log(user.dataValues.password);
+    // console.log(user.dataValues.password);
     const comparePass = bcrypt.compareSync(
       oldpassword,
       user.dataValues.password
     );
-    console.log(comparePass);
+    // console.log(comparePass);
     if (!comparePass) {
       return errorFunc(res, 400, passwordError);
     } else {

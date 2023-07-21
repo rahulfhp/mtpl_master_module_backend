@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const { errorFunc } = require('./errorMessage');
-const { otpGeneration } = require('./otpGeneration');
+
 
 // Create a transporter using the SMTP configuration
 const mailSender =  (req,res,email,otp)=>{
@@ -25,7 +25,7 @@ const mailOptions = {
     if (error) {
       return errorFunc(res,400,error)
     } else {
-      console.log("Sending the Mail");
+      // console.log("Sending the Mail");
         return errorFunc(res,200,info)
     }
   });
