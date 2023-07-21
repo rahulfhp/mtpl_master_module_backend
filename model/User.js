@@ -1,63 +1,82 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../config/database')
+const Sequelize = require("sequelize");
+const sequelize = require("../config/database");
 
-
-const User = sequelize.define('user', {
-    id: {
-        type: Sequelize.BIGINT,
-        primaryKey: true,
-        autoIncrement: true
+const User = sequelize.define(
+  "user",
+  {
+    user_id: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+      unique: true,
     },
+
     full_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      type: Sequelize.STRING,
+      allowNull: false,
     },
-    email:{
-        type:Sequelize.STRING,
-        allowNull: false,
-       
+    email: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      unique: true,
+      defaultValue: null
     },
-    password:{
-        type:Sequelize.STRING,
-        allowNull: false,
-        
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
-    phone:{
-        type:Sequelize.STRING,
-        allowNull: false,
+    country_code: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
-    profile_image:{
-        type:Sequelize.STRING,
-        allowNull: true,
+    phone: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      unique: true,
+      defaultValue: null,
     },
-    gender:{
-        type:Sequelize.STRING(10),
-        allowNull: false,
+    profile_image: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
-    dob:{
-        type:Sequelize.DATEONLY,
-        allowNull: true,
+    gender: {
+      type: Sequelize.STRING(10),
+      allowNull: false,
     },
-    is_verified:{
-        type:Sequelize.BOOLEAN,
+    dob: {
+      type: Sequelize.DATEONLY,
+      allowNull: true,
     },
-    is_admin:{
-        type:Sequelize.BOOLEAN,
-    },
-    created:{
-        type:Sequelize.DATE,
-    },
-    provider:{
-        type:Sequelize.STRING,
-        allowNull: true,
-    },
-    is_deleted:{
-        type:Sequelize.BOOLEAN,
-        allowNull: true,
-    }
+    is_verified: {
+      type: Sequelize.BOOLEAN,
 
-},{
-    timestrap:true
-});
+      defaultValue: false,
+    },
+    is_admin: {
+      type: Sequelize.BOOLEAN,
+
+      defaultValue: false,
+    },
+    created: {
+      type: Sequelize.DATE,
+    },
+    provider: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    is_deleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: 0,
+    },
+    token: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+  },
+  {
+    timestrap: true,
+  }
+);
 
 module.exports = User;
