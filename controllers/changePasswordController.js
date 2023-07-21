@@ -1,93 +1,99 @@
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
+const uppercaseRegExp = /(?=.*?[A-Z])/;
+const lowercaseRegExp = /(?=.*?[a-z])/;
+const digitsRegExp = /(?=.*?[0-9])/;
+const specialCharRegExp = /(?=.?[#?!@$%^&-])/;
+const minLengthRegExp = /.{8,}/;
+
 const {
   samePassword,
   updatedPass,
   oldPassError,
   newPassError,
   confirmPassError,
+  errorFunc,
+  emailError,
   passwordError,
+  minLengthError,
+  uppercaseError,
+  lowercaseError,
+  digitsError,
+  specialCharError,
 } = require("../constraints/errorMessage");
 
 const changePassword = async (req, res) => {
-  const { email, oldpassword, newpassword, confirmpassword } = req.body;
+  const { userid } = req.params;
+  const { oldpassword, newpassword, confirmpassword } = req.body;
   try {
-    if (!email) {
-      return res.send({
-        status: 400,
-        message: emailError,
-      });
+    if (oldpassword === "") {
+      return errorFunc(res, 400, oldPassError);
     }
-    if (!oldpassword) {
-      return res.send({
-        status: 400,
-        message: oldPassError,
-      });
+    if (newpassword === "") {
+      return errorFunc(res, 400, newPassError);
     }
-    if (!newpassword) {
-      return res.send({
-        status: 400,
-        message: newPassError,
-      });
+    if (confirmpassword === "") {
+      return errorFunc(res, 400, confirmPassError);
     }
-    if (!confirmpassword) {
-      return res.send({
-        status: 400,
-        message: confirmPassError,
-      });
+    if (newpassword) {
+      const minLengthPassword = minLengthRegExp.test(newpassword);
+      if (!minLengthPassword) {
+        return errorFunc(res, 400, minLengthError);
+      }
+      const uppercasePassword = uppercaseRegExp.test(newpassword);
+      if (!uppercasePassword) {
+        return errorFunc(res, 400, uppercaseError);
+      }
+      const lowercasePassword = lowercaseRegExp.test(newpassword);
+      if (!lowercasePassword) {
+        return errorFunc(res, 400, lowercaseError);
+      }
+      const digitsPassword = digitsRegExp.test(newpassword);
+      if (!digitsPassword) {
+        return errorFunc(res, 400, digitsError);
+      }
+      const specialCharPassword = specialCharRegExp.test(newpassword);
+      if (!specialCharPassword) {
+        return errorFunc(res, 400, specialCharError);
+      }
     }
-
     if (newpassword !== confirmpassword) {
-      return res.send({
-        status: 400,
-        message: "New and COnfirm doesnt match",
-      });
+      return errorFunc(res, 400, "Confirm and New are not same");
     }
     if (oldpassword === newpassword) {
-      return res.send({
-        status: 400,
-        message: samePassword,
-      });
+      return errorFunc(res, 400, samePassword);
     }
 
     const user = await User.findOne({
       where: {
-        email,
+        user_id: userid,
       },
     });
     console.log(user.dataValues.password);
-    const comparePass = await bcrypt.compareSync(
-        oldpassword,
-      user.dataValues.password,
-      
+    const comparePass = bcrypt.compareSync(
+      oldpassword,
+      user.dataValues.password
     );
     console.log(comparePass);
     if (!comparePass) {
-      return res.send({
-        status: 400,
-        message: 'hello',
-      });
-    }
-    else{
-    const newpass = await bcrypt.hashSync(newpassword, 13);
-    await User.update(
-      { password: newpass },
-      {
-        where: {
-          email,
+      return errorFunc(res, 400, passwordError);
+    } else {
+      const newpass = bcrypt.hashSync(newpassword, 13);
+      await User.update(
+        {
+          password: newpass,
+          token: null,
         },
-      }
-    );
-
-    return res.send({
-      status: 200,
-      message: updatedPass,
-    });}
+        {
+          where: {
+            user_id:userid,
+          },
+        }
+      );
+      return errorFunc(res, 200, updatedPass);
+    }
   } catch (error) {
-    return res.send({
-      status: 400,
-      message: error.message,
-    });
+    return errorFunc(res, 400, error.message);
   }
 };
 
